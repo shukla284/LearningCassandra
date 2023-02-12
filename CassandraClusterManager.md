@@ -14,6 +14,12 @@ So to cater that very thing, for testing and developing on cassandra on the deve
 - As we already know the cassandra needs 3 ports for running correctly. Please ensure these ports are free CCM might throw error for the required port if not found free. 
 - Use command for example if 9042 is not free and we are getting some exceptions due to this, ```lsof -t -i:9042``` and if there is an output then it would be the <process_id> of the process which is currently occupying that port. if this is not intended and we are not intentionally running something on this port prior to CCM then simply kill that process using ```kill -9 <process_id>```, here the <process_id> is the result of the above command. 
 - Now simply try to run the things, it should be fine to run with. Plese note that CCM is not atomic kind of command, that its different parts may fail and there might be the case that cluster nodes are initialized or created but are not going up, this might be issue when we are trying to run command for correctness. 
+- Another thing which might create issue is JAVA_HOME environment variable whose value might not be set in the bash, which could create issue while runing the cluster, CCM requires at least for running, so specify that using the bash file by adding these lines to ```~/.bashrc``` file 
+~~~shell
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+export PATH=$PATH:$JAVA_HOME/bin
+~~~
+
 - Please turn the current cluster down using ```ccm remove``` which will stop the cluster nodes. 
 - If everything goes fine in the above step then this should result into ccm clusters working correctly, checking this through ```ccm status``` should show all of nodes up, this might take some time though to start the nodes. 
 - One of the ways to run the above using minconda is described in this ```article```.
